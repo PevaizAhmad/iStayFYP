@@ -1,0 +1,201 @@
+﻿@model iStay.Models.HostelRegisteration
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <h1>@ViewBag.issucces</h1>
+}
+
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-12 col-lg-10 text-center p-0 mt-3 mb-2">
+        <div class="card" style="padding:25px">
+            <h2 id="heading">Sign Up Your User Account</h2>
+            <p>Fill all form field to go to next step</p>
+
+            @using (Html.BeginForm("Index", "User", FormMethod.Post, new { id = "msform" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <!-- progressbar Start-->
+                <ul id="progressbar">
+                    <li class="active" id="account"><strong>Account</strong></li>
+                    <li id="personal"><strong>Hostel Info</strong></li>
+                    <li id="payment"><strong>Image</strong></li>
+                    <li id="confirm"><strong>Finish</strong></li>
+                </ul>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <!-- progressbar END-->
+                <br>
+
+                <!-- fieldsets Start-->
+                <fieldset>
+                    <div class="form-card">
+                        <div class="row">
+                            <div class="col-7">
+                                <h2 class="fs-title">Account Information:</h2>
+                            </div>
+                            <div class="col-5">
+                                <h2 class="steps">Step 1 - 4</h2>
+                            </div>
+                        </div>
+
+
+
+                        <label class="fieldlabels">Name: *</label>
+                        @Html.EditorFor(model => model.user.User_Name, new { htmlAttributes = new { placeholder = "Jhon Smith" } })
+                        @Html.ValidationMessageFor(model => model.user.User_Name, "", new { @class = "text-danger" })
+                        <span></span>
+                        <label class="fieldlabels">Email: *</label>
+                        @Html.EditorFor(model => model.user.User_Email, new { htmlAttributes = new { placeholder = "jhonsmith@gmail.com" } })
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="fieldlabels">Contact: *</label>
+                                @Html.EditorFor(model => model.user.User_Contact, new { htmlAttributes = new { placeholder = "+923**********" } })
+                            </div>
+                            <div class="col-md-2">
+                                <label class="fieldlabels">Gender: *</label>
+                                @Html.DropDownListFor(model => model.user.User_Gender, new List<SelectListItem>
+                                    { new SelectListItem{Text="Male", Value="Male"},
+                                    new SelectListItem{Text="Female", Value="Female"}}, "-----Select-----")
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label class="fieldlabels">Password: *</label>
+                                @Html.EditorFor(model => model.user.User_Pass, new { htmlAttributes = new { placeholder = "Password" } })
+                            </div>
+                            <div class="col">
+                                <label class="fieldlabels">Confirm Password: *</label>
+                                @Html.EditorFor(model => model.user.ConfirmPassword, new { htmlAttributes = new { placeholder = "Confirm Password" } })
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit"  class=" action-button" value="Next" />
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-card">
+                        <div class="row">
+                            <div class="col-7">
+                                <h2 class="fs-title">Hostel Information:</h2>
+                            </div>
+                            <div class="col-5">
+                                <h2 class="steps">Step 2 - 4</h2>
+                            </div>
+                        </div>
+
+                        <label class="fieldlabels">Hostel Name: *</label>
+                        @Html.EditorFor(model => model.hostelInfo.hostel_name, new { htmlAttributes = new { placeholder = "Hostel Name" } })
+
+                        <label class="fieldlabels">Email: *</label>
+                        @Html.EditorFor(model => model.hostelInfo.hostel_email, new { htmlAttributes = new { placeholder = "hoste@gmail.com" } })
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label class="fieldlabels">Hostel Address.: *</label>
+                                @Html.EditorFor(model => model.hostelInfo.hostel_address, new { htmlAttributes = new { placeholder = "Hostel Address" } })
+                            </div>
+                            <div class="col-md-4">
+                                <label class="fieldlabels">City.: *</label>
+                                @Html.EditorFor(model => model.hostelInfo.city_name)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label class="fieldlabels">Institute.: *</label>
+                                @Html.EditorFor(model => model.hostelInfo.institute)
+                            </div>
+                            <div class="col-md-4">
+                                <label class="fieldlabels">Rooms.: *</label>
+                                @Html.EditorFor(model => model.hostelInfo.rooms)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="fieldlabels">Refregarator.: *</label>
+                                @Html.EditorFor(model => model.hostelInfo.refregrator)
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fieldlabels">kitchen.: *</label>
+                                @Html.EditorFor(model => model.hostelInfo.kitchen)
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fieldlabels">Mess.: *</label>
+                                @Html.EditorFor(model => model.hostelInfo.Mess)
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fieldlabels">Laundry.: *</label>
+                                @Html.EditorFor(model => model.hostelInfo.laundry)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="fieldlabels">WI-FI.: *</label>
+                                @Html.EditorFor(model => model.hostelInfo.wifi)
+                            </div>
+                            <div class="col-md-4">
+                                <label class="fieldlabels">AC.: *</label>
+                                @Html.EditorFor(model => model.hostelInfo.AC)
+                            </div>
+                            <div class="col-md-4">
+                                <label class="fieldlabels">Rent.: *</label>
+                                @Html.EditorFor(model => model.hostelInfo.rent)
+                            </div>
+                        </div>
+                    </div>
+                    <input type="button" name="next" class="next action-button" value="Next" />
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                </fieldset>
+                <fieldset>
+                    <div class="form-card">
+                        <div class="row">
+                            <div class="col-7">
+                                <h2 class="fs-title">Image Upload:</h2>
+                            </div>
+                            <div class="col-5">
+                                <h2 class="steps">Step 3 - 4</h2>
+                            </div>
+                        </div>
+
+                        <label class="fieldlabels">Upload Your Photo:</label>
+                        <input type="file" name="pic" accept="image/*">
+
+                        <label class="fieldlabels">Upload Signature Photo:</label>
+                        <input type="file" name="pic" accept="image/*">
+
+                    </div> <input type="button" name="next" class="next action-button" value="Submit" />
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+
+                </fieldset>
+                <fieldset>
+                    <div class="form-card">
+                        <div class="row">
+                            <div class="col-7">
+                                <h2 class="fs-title">Finish:</h2>
+                            </div>
+                            <div class="col-5">
+                                <h2 class="steps">Step 4 - 4</h2>
+                            </div>
+                        </div> <br><br>
+                        <h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
+                        <div class="row justify-content-center">
+                            <div class="col-3"> <img src="https://i.imgur.com/GwStPmg.png" class="fit-image"> </div>
+                        </div> <br><br>
+                        <div class="row justify-content-center">
+                            <div class="col-7 text-center">
+                                <h5 class="purple-text text-center">You Have Successfully Signed Up</h5>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <!-- fieldsets END-->
+            }
+        </div>
+    </div>
+</div>
+

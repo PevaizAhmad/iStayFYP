@@ -1,0 +1,119 @@
+﻿@model iStay.DB.HostelInfo
+
+@{
+    ViewBag.Title = "MyHostel";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+@{
+    Session["TenantSessionId"] = null;
+    if (Session != null && Session["TenantSessionId"] != null)
+    {
+        if (TempData["msg"] != null)
+        {
+            <script type="text/javascript">
+                window.onload = function () {
+                    var message = '@TempData["msg"]';
+                    var sts = '@TempData["status"]';
+                    swal({ title: "Updated", text: message, icon: "success" });
+                }
+            </script>
+        }
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>@Model.hostel_name</h2><br />
+                <sapn>@Model.hostel_email</sapn><br />
+                <sapn>@Model.hostel_address</sapn><br />
+                <sapn></sapn>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12 col-md-3 col-lg-3">
+                <h4>Services Available</h4>
+                <div style="float:left">
+                    <ul>
+                        <li>AC:</li>
+                        <li>REfregrator: @*@(Model.AC.Equals("Yes") ? "Yes" : "No")*@</li>
+                        <li>Kitchen:</li>
+                        <li>Laundry:</li>
+                        <li>Mess:</li>
+                        <li>Internet:</li>
+                    </ul>
+                    <hr />
+
+                </div>
+                <div style="float:right">
+                    <ul>
+                        <li><input style="color:green" type="checkbox" readonly="readonly" disabled @(Model.AC.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
+                        <li><input type="checkbox" readonly="readonly" disabled @(Model.refregrator.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
+                        <li><input type="checkbox" readonly="readonly" disabled @(Model.kitchen.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
+                        <li><input type="checkbox" readonly="readonly" disabled @(Model.laundry.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
+                        <li><input type="checkbox" readonly="readonly" disabled @(Model.Mess.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
+                        <li><input type="checkbox" readonly="readonly" disabled @(Model.wifi.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <h4>About</h4>
+                <p>@Model.Description</p>
+            </div>
+            <div class="col-sm-12 col-md-3 col-lg-3">
+                <h4>Nearest Institutes</h4>
+                <ul>
+                    @{
+                        foreach (var institute in Model.Hostel_Institues)
+                        {
+                            <li>@institute.Institutes_Name</li>
+                        }
+                    }
+                </ul>
+                <hr />
+                <div style="float:left">
+                    <h5>Rent : </h5>
+                    <h5>Rooms : </h5>
+                </div>
+                <div style="float:right">
+                    @Model.rent -/PKR <br />
+                    @Model.rooms
+                </div>
+            </div>
+        </div>
+        <hr />
+        <!-- The four columns -->
+        <div class="row">
+            @{
+                foreach (var img in Model.Images)
+                {
+
+                    <div class="column">
+                        <img src="~/uploadfiles/@img.img" id="img" class="img-thumbnail" style="width:200px; height:200px;" onclick="newTabImage()" />
+                    </div>
+                }
+            }
+        </div>
+        <hr />
+
+        <p>
+            @Html.ActionLink("Edit", "Edit", "Hostel", new { id = Model.ID }, null) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    }
+    else
+    {
+        <span>Session Has been Expires Please <span style="color:orangered">@Html.ActionLink("Click Here", "Login", "Auth")</span> to login </span>
+    }
+}
+
+
+<script type="text/javascript">
+    function newTabImage() {
+        var image = new Image();
+        image.src = $('#img').attr('src');
+
+        var w = window.open("", '_blank');
+        w.document.write(image.outerHTML);
+        w.document.close();
+    }
+</script>

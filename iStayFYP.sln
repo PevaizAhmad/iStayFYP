@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iStayFYP", "iStayFYP.csproj", "{4683EC3C-36D9-4654-9DE1-61572D5D7B5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iStay.Models", "..\iStay.Models\iStay.Models.csproj", "{6A404CB9-5A8F-49FB-AB1C-4E075346A03B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iStay.DB", "..\iStay.DB\iStay.DB.csproj", "{2D5E8118-E4AC-4AA7-983E-66B3D29B3AA6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4683EC3C-36D9-4654-9DE1-61572D5D7B5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4683EC3C-36D9-4654-9DE1-61572D5D7B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4683EC3C-36D9-4654-9DE1-61572D5D7B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4683EC3C-36D9-4654-9DE1-61572D5D7B5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A404CB9-5A8F-49FB-AB1C-4E075346A03B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A404CB9-5A8F-49FB-AB1C-4E075346A03B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A404CB9-5A8F-49FB-AB1C-4E075346A03B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A404CB9-5A8F-49FB-AB1C-4E075346A03B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D5E8118-E4AC-4AA7-983E-66B3D29B3AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D5E8118-E4AC-4AA7-983E-66B3D29B3AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D5E8118-E4AC-4AA7-983E-66B3D29B3AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D5E8118-E4AC-4AA7-983E-66B3D29B3AA6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C7D1781-DA39-4C8E-9736-061769165309}
+	EndGlobalSection
+EndGlobal

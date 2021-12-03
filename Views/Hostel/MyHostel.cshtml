@@ -1,0 +1,67 @@
+﻿@model iStay.DB.HostelInfo
+@{
+    ViewBag.Title = "MyHostel";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+@{
+    if (Session != null && Session["userID"] != null)
+    {
+        <script type="text/javascript">
+        window.onload = function () {
+            var message = '@TempData["msg"]';
+            var sts = '@TempData["status"]';
+            swal({ title: "Updated", text: message, icon: sts });
+        }
+
+        </script>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>@Model.hostel_name</h2><br />
+                <sapn>@Model.hostel_email</sapn><br />
+                <sapn>@Model.hostel_address</sapn><br />
+                <sapn></sapn>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12 col-md-3 col-lg-3">
+                <img class="img-thumbnail" src="~/uploadfiles/" />
+                <ul>
+                    <li>AC:</li>
+                    <li>REfregrator:</li>
+                    <li>Kitchen:</li>
+                    <li>Laundry:</li>
+                    <li>Mess:</li>
+                </ul>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <h4>About</h4>
+                <p>
+                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+                </p>
+            </div>
+            <div class="col-sm-12 col-md-3 col-lg-3">
+                <h4>Nearest Institutes</h4>
+                <ul>
+                    @{
+                        foreach (var institute in Model.Hostel_Institues)
+                        {
+                            <li>@institute.Institutes_Name</li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+    else
+    {
+        <span>Session Has been Expires Please <i>@Html.ActionLink("Click Here", "Login", "Auth")</i> to login </span>
+    }
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />

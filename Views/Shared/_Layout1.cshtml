@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- site icon -->
+    <link rel="icon" href="~/Content/images/fevicon.png" type="image/png" />
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/dashboardcode/bsmultiselect@1.1.18/dist/css/BsMultiSelect.bs4.min.css" rel="stylesheet" />
+    <!-- site css -->
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <!-- responsive css -->
+    <link href="~/Content/css/responsive.css" rel="stylesheet" />
+    <!-- color css -->
+    <link rel="stylesheet" href="~/Content/css/colors.css" />
+    <!-- select bootstrap -->
+    <link rel="stylesheet" href="~/Content/css/bootstrap-select.css" />
+    <!-- scrollbar css -->
+    <link rel="stylesheet" href="~/Content/css/perfect-scrollbar.css" />
+    <script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <!-- custom css -->
+
+    <link href="~/Content/css/custom.css" rel="stylesheet" />
+    @*[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]*@
+</head>
+<body class="dashboard ">
+    <div class="full_container">
+        <div class="inner_container">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <div class="sidebar_blog_1">
+                    <div class="sidebar-header">
+                        <div class="logo_section">
+                            <a href="#"><img class="logo_icon img-responsive" src="~/Content/images/logo/istayLogo.png" alt="#" /></a>
+                        </div>
+                    </div>
+                    <div class="sidebar_user_info">
+                        <div class="icon_setting"></div>
+                        <div class="user_profle_side">
+                            <div class="user_img"><img class="img-responsive" src="~/Content/images/layout_img/user.png" alt="#" /></div>
+                            <div class="user_info">
+                                <h6>Team Alpha</h6>
+                                <p><span class="online_animation"></span> Online</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar_blog_2">
+                    <h4>General</h4>
+                    <ul class="list-unstyled components">
+                        <li class="active">
+                            <a href="#dashboard" data-toggle="collapse" aria-expanded="false"><i class="fa fa-dashboard orange_color"></i> <span>Dashboard</span></a>
+                            
+                        </li>
+                        <li><a href="@Url.Action("MyHostel","Hostel")"><i class="fa fa-hotel orange_color"></i> <span>My Hostel</span></a></li>
+                        <li><a href="@Url.Action("HostelGuests","HostelAdmin")"><i class="fa fa-users orange_color"></i> <span>Guests</span></a></li>
+                        <li><a href="@Url.Action("GuestsApproval","HostelAdmin")"><i class="fa fa-user-plus orange_color"></i> <span>Guesting Request</span></a></li>
+                        <li><a href="@Url.Action("FeeDefaltuerGuests","HostelAdmin")"><i class="fa fa-money orange_color"></i> <span>Rent Defaulter</span></a></li>
+                        </ul>
+                </div>
+            </nav>
+            <!-- end sidebar -->
+            <!-- right content -->
+            <div id="content">
+                <!-- topbar -->
+                <div class="topbar">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <div class="full">
+                            <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i class="fa fa-bars"></i></button>
+                            <div class="logo_section">
+                                <a href="index.html"><img class="img-responsive" src="~/Content/images/logo/istayLogo.png" alt="#" /></a>
+                            </div>
+                            <div class="right_topbar">
+                                <div class="icon_info">
+                                    <ul>
+                                        <li><a href="#"><i class="fa fa-bell-o"></i><span class="badge">2</span></a></li>
+                                        <li><a href="#"><i class="fa fa-question-circle"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-envelope-o"></i><span class="badge">3</span></a></li>
+                                    </ul>
+                                    <ul class="user_profile_dd">
+                                        <li>
+                                            <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="~/Content/images/layout_img/user.png" alt="#" /><span class="name_user">Team Alpha</span></a>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="profile.html">My Profile</a>
+                                                <a class="dropdown-item" href="settings.html">Settings</a>
+                                                <a class="dropdown-item" href="help.html">Help</a>
+                                                <a class="dropdown-item" href="#"><span>Log Out</span> <i class="fa fa-sign-out"></i></a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <!-- end topbar -->
+                <!-- dashboard inner -->
+                <div class="midde_cont">
+                    <div class="container-fluid" style="padding-top:20px;">
+                        @RenderBody()
+                    </div>
+                    <!-- footer -->
+                    <div class="container-fluid">
+                        <div class="footer">
+                            <p>Copyright © 2018 Designed by html.design. All rights reserved.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- end dashboard inner -->
+            </div>
+        </div>
+    </div>
+    <!-- jQuery -->
+    <script src="~/Content/js/popper.min.js"></script>
+    @*wow animation*@
+    <script src="~/Content/js/animate.js"></script>
+    @*select country*@
+    <script src="~/Content/js/bootstrap-select.js"></script>
+    @*owl carousel*@
+    <script src="~/Content/js/owl.carousel.js"></script>
+    @*chart js*@
+    <script src="~/Content/js/Chart.min.js"></script>
+    <script src="~/Content/js/Chart.bundle.min.js"></script>
+    <script src="~/Content/js/utils.js"></script>
+    <script src="~/Content/js/analyser.js"></script>
+    @*nice scrollbar*@
+    <script src="~/Content/js/perfect-scrollbar.min.js"></script>
+    <script>
+        var ps = new PerfectScrollbar('#sidebar');
+    </script>
+    @*custom js*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="~/Content/js/custom.js"></script>
+    <script src="~/Content/js/myscript.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/additional-methods.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    @*scripts for chosen drop down List*@
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

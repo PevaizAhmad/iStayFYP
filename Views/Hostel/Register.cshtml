@@ -1,0 +1,184 @@
+﻿@model iStay.Models.HostelInfo
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<style>
+    .red {
+        color: red;
+    }
+
+    .text-area {
+        padding: 8px 15px 8px 15px;
+        border: 1px solid #ccc;
+        border-radius: 0px;
+        margin-bottom: 5px;
+        margin-top: 2px;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: montserrat;
+        color: #2C3E50;
+        background-color: #ECEFF1;
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-12 col-lg-12 text-center p-0 mt-3 mb-2">
+        <div class="card" style="padding:25px">
+            <h2 id="heading">Enter Your Hostel Information</h2>
+            @using (Html.BeginForm("Register", "Hostel", FormMethod.Post, new { id = "msform", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <fieldset>
+                    <div class="form-card">
+                        @*<div class="row">
+               <div class="col-7">
+                   <h2 class="fs-title">Hostel Information:</h2>
+               </div>
+               <div class="col-5">
+                   <h2 class="steps">Step 2 - 4</h2>
+               </div>
+        </div>*@
+                        <div class="row">
+                            <div class="col">
+                                <label class="fieldlabels">Hostel Name: <span class="text-danger">*</span></label>
+                                @Html.EditorFor(model => model.hostel_name, new { htmlAttributes = new {@class="input",  placeholder = "Hostel Name" } })
+                                @Html.ValidationMessageFor(model => model.hostel_name, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col">
+                                <label class="fieldlabels">Email: *</label>
+                                @Html.EditorFor(model => model.hostel_email, new { htmlAttributes = new { placeholder = "hoste@gmail.com" } })
+                                @Html.ValidationMessageFor(model => model.hostel_email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label class="fieldlabels">Hostel Address.: *</label>
+                                @Html.EditorFor(model => model.hostel_address, new { htmlAttributes = new { placeholder = "Hostel Address" } })
+                                @Html.ValidationMessageFor(model => model.hostel_address, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-4">
+                                <label class="fieldlabels">City.: *</label>
+                                @Html.EditorFor(model => model.city_name)
+                                @Html.ValidationMessageFor(model => model.city_name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="fieldlabels">Institute.: *</label>
+                                <select name="institute" id="example" multiple="multiple">
+                                    <option value="UCP">UCP</option>
+                                    <option value="UMT">UMT</option>
+                                    <option value="Education">Education </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fieldlabels">Hostel For: *</label>
+                                @Html.DropDownListFor(model => model.type, new List<SelectListItem>
+                                    { new SelectListItem{Text="male", Value="Male"},
+                                    new SelectListItem{Text="female", Value="female"}}, "-----Select-----", new { @class = "text-area" })
+                                @Html.ValidationMessageFor(model => model.type, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="fieldlabels">Refregarator.: *</label>
+                                @Html.DropDownListFor(model => model.refregrator, new List<SelectListItem>
+                                    { new SelectListItem{Text="Yes", Value="Yes"},
+                                    new SelectListItem{Text="No", Value="No"}}, "-----Select-----", new { @class = "text-area" })
+                                @Html.ValidationMessageFor(model => model.refregrator, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fieldlabels">kitchen.: *</label>
+                                @Html.DropDownListFor(model => model.kitchen, new List<SelectListItem>
+                                    { new SelectListItem{Text="Yes", Value="Yes"},
+                                    new SelectListItem{Text="No", Value="No"}}, "-----Select-----", new { @class = "text-area" })
+                                @Html.ValidationMessageFor(model => model.kitchen, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fieldlabels">Mess.: *</label>
+                                @Html.DropDownListFor(model => model.Mess, new List<SelectListItem>
+                                    { new SelectListItem{Text="Yes", Value="Yes"},
+                                    new SelectListItem{Text="No", Value="No"}}, "-----Select-----", new { @class = "text-area" })
+                                @Html.ValidationMessageFor(model => model.Mess, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fieldlabels">Laundry.: *</label>
+                                @Html.DropDownListFor(model => model.laundry, new List<SelectListItem>
+                                     { new SelectListItem{Text="Yes", Value="Yes"},
+                                     new SelectListItem{Text="No", Value="No"}}, "-----Select-----", new { @class = "text-area" })
+                                @Html.ValidationMessageFor(model => model.laundry, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="fieldlabels">WI-FI.: *</label>
+                                @Html.DropDownListFor(model => model.wifi, new List<SelectListItem>
+                                    { new SelectListItem{Text="Yes", Value="Yes"},
+                                    new SelectListItem{Text="No", Value="No"}}, "-----Select-----", new { @class = "text-area" })
+                                @Html.ValidationMessageFor(model => model.wifi, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fieldlabels">AC.: *</label>
+                                @Html.DropDownListFor(model => model.AC, new List<SelectListItem>
+                                    { new SelectListItem{Text="Yes", Value="Yes"},
+                                    new SelectListItem{Text="No", Value="No"}}, "-----Select-----", new { @class = "text-area" })
+                                @Html.ValidationMessageFor(model => model.AC, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fieldlabels">Rooms.: *</label>
+                                @Html.EditorFor(model => model.rooms)
+                                @Html.ValidationMessageFor(model => model.rooms, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fieldlabels">Rent.: *</label>
+                                @Html.EditorFor(model => model.rent)
+                                @Html.ValidationMessageFor(model => model.rent, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label class="fieldlabels">Description.: *</label>
+                                @Html.TextAreaFor(model => model.status)
+                                @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <label class="fieldlabels">Hostel Images</label>
+                        @Html.TextBoxFor(model => model.files, "", new { @type = "file", @multiple = "multiple" })
+                        @Html.ValidationMessageFor(model => model.files, "", new { @class = "text-danger" })
+
+                        @*<label class="fieldlabels">Upload Signature Photo:</label>*@
+                        @*<input type="file" name="files" multiple="multiple" accept="image/*">*@
+                    </div>
+
+                    <input type="submit" name="next" class="action-button" value="Register" />
+                    @ViewBag.msg
+                </fieldset>
+
+            }
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    
+    <script src="~/Content/js/BsMultiSelect.js"></script>
+    <script>
+        $("#example").bsMultiSelect({
+            cssPatch: {
+                choices: { columnCount: '1' },
+            }
+        });</script>
+}
+
+
+

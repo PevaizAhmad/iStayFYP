@@ -1,0 +1,105 @@
+﻿@model iStay.Models.Users
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<style>
+    .red{
+        color:red;
+    }
+    .text-area {
+        padding: 8px 15px 8px 15px;
+        border: 1px solid #ccc;
+        border-radius: 0px;
+        margin-bottom: 5px;
+        margin-top: 2px;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: montserrat;
+        color: #2C3E50;
+        background-color: #ECEFF1;
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+</style>
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-12 col-lg-10 text-center p-0 mt-3 mb-2">
+        <div class="card" style="padding:25px">
+            <h2 id="heading">Sign Up Your User Account</h2>
+            @*<p>Fill all menatory fields<span> *</span> </p>*@
+
+            @using (Html.BeginForm("Create", "Auth", FormMethod.Post, new { id = "msform" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <!-- fieldsets Start-->
+                <fieldset>
+                    <div class="form-card">
+                        @*<div class="row">
+                        <div class="col-7">
+                            <h2 class="fs-title">Account Information:</h2>
+                        </div>
+                        <div class="col-5">
+                            <h2 class="steps">Step 1 - 4</h2>
+                        </div>
+                    </div>*@
+
+
+
+                        <label class="fieldlabels">Name: <span class="text-danger"> *</span></label>
+                        @Html.EditorFor(model => model.User_Name, new { htmlAttributes = new { @class = "input", placeholder = "Jhon Smith" } })
+                        @Html.ValidationMessageFor(model => model.User_Name, "", new { @class = "text-danger" })
+
+                        <label class="fieldlabels">Email: <span> *</span></label>
+                        @Html.EditorFor(model => model.User_Email, new { htmlAttributes = new { @class = "input", placeholder = "jhonsmith@gmail.com" } })
+                        @Html.ValidationMessageFor(model => model.User_Email, "", new { @class = "text-danger" })
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="fieldlabels">Contact: <span> *</span></label>
+                                @Html.EditorFor(model => model.User_Contact, new { htmlAttributes = new { @class = "input", placeholder = "+923**********" } })
+                                @Html.ValidationMessageFor(model => model.User_Contact, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-4">
+                                <label class="fieldlabels">Gender: <span> *</span></label>
+                                @Html.DropDownListFor(model => model.User_Gender, new List<SelectListItem>
+                                    { new SelectListItem{Text="Male", Value="Male"},
+                                    new SelectListItem{Text="Female", Value="Female"}}, "-----Select-----", new { @class = "text-area" })
+
+                                @Html.ValidationMessageFor(model => model.User_Gender, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label class="fieldlabels">Type: <span> *</span></label>
+                                @Html.DropDownListFor(model => model.User_type, ViewBag.UserType as SelectList, "-----Select-----", new { @class = "text-area" })
+
+                                @Html.ValidationMessageFor(model => model.User_type, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label class="fieldlabels">Password: <span> *</span></label>
+                                @Html.EditorFor(model => model.User_Pass, new { htmlAttributes = new { @class = "input", placeholder = "Password" } })
+                                @Html.ValidationMessageFor(model => model.User_Pass, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col">
+                                <label class="fieldlabels">Confirm Password: *</label>
+                                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "input", placeholder = "Confirm Password" } })
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" class=" action-button" value="Register" />
+                </fieldset>
+                <span>Already have account ?  @Html.ActionLink("Login Here", "Login", "Auth", null, new { @class = "orange_color" })</span>
+
+                <!-- fieldsets END-->
+            }
+        </div>
+    </div>
+</div>
+
+

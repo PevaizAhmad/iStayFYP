@@ -1,0 +1,71 @@
+﻿@model iStay.Models.Users
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<style>
+    .red {
+        color: red;
+    }
+
+    .text-area {
+        padding: 8px 15px 8px 15px;
+        border: 1px solid #ccc;
+        border-radius: 0px;
+        margin-bottom: 5px;
+        margin-top: 2px;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: montserrat;
+        color: #2C3E50;
+        background-color: #ECEFF1;
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+</style>
+
+@if (TempData["registered"] != null)
+{
+    <script type="text/javascript">
+                window.onload = function () {
+                    var message = '@TempData["registered"]';
+                    swal({ title: "Registered", text: message, icon: "success" });
+                }
+    </script>
+}
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-12 col-lg-10 text-center p-0 mt-3 mb-2">
+        <div class="card" style="padding:25px">
+            <h2 id="heading">Sign Up Your User Account</h2>
+            @*<p>Fill all menatory fields<span> *</span> </p>*@
+
+            @using (Html.BeginForm("Login", "Auth", FormMethod.Post, new { id = "msform" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <!-- fieldsets Start-->
+                <fieldset>
+                    <div class="form-card">
+                        <label class="fieldlabels">Name: <span class="text-danger"> *</span></label>
+                        @Html.EditorFor(model => model.User_Name, new { htmlAttributes = new { @class = "input", placeholder = "Jhon Smith" } })
+                        @Html.ValidationMessageFor(model => model.User_Name, "", new { @class = "text-danger" })
+
+                        <label class="fieldlabels">Password: <span> *</span></label>
+                        @Html.EditorFor(model => model.User_Pass, new { htmlAttributes = new { @class = "input", placeholder = "Password" } })
+                        @Html.ValidationMessageFor(model => model.User_Pass, "", new { @class = "text-danger" })
+
+                        <input type="submit" class=" action-button" value="Login" />
+
+                    </div>
+                </fieldset>
+                <span>Don't have account ?  @Html.ActionLink("Signup Here", "Create", "Auth", null, new { @class= "orange_color" } )</span>
+
+                <!-- fieldsets END-->
+            }
+        </div>
+    </div>
+</div>
+
+
