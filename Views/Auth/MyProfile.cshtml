@@ -1,0 +1,78 @@
+﻿@model iStay.Models.Users
+@{
+    ViewBag.Title = "MyProfile";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+ }
+<div class="container-fluid">
+    <div class="page_title"><h2>My Profile</h2></div>
+
+    <div class="row ">
+        <div class="col-md-2"></div>
+        <div class="col-md-8  price_table padding_infor_info bg-white">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="profile_img col-md-4">
+                    <img width="160" height="160" class="rounded-circle center" src="~/Content/images/layout_img/user_img.jpg" alt="">
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row container-fluid " style="padding-top:30px">
+                <div class="col-md-3"></div>
+                <div class="col-lg-4">
+                    <div>
+                        <label class="fieldlabels">Name: </label>
+                    </div>
+                    <br />
+                    <div>
+                        <label class="fieldlabels">Email: </label>
+                    </div>
+                    <br />
+                    <div>
+                        <label class="fieldlabels">Password: </label>
+                    </div>
+                    <br />
+                    <div>
+                        <label class="fieldlabels">Gender:</label>
+                    </div>
+                    <br />
+                    <div>
+                        <label class="fieldlabels">Contact: </label>
+                    </div>
+                    <br />
+                </div>
+                <div class="col-md-5">
+                    <div>
+                        <label class="fieldlabels">@Model.User_Name</label>
+                    </div>
+                    <br />
+                    <div>
+                        <label class="fieldlabels">@Model.User_Email </label>
+                    </div>
+                    <br />
+                    <div>
+                        <label class="fieldlabels">@Model.User_Pass </label>
+                    </div>
+                    <br />
+                    <div>
+                        <label class="fieldlabels">@Model.User_Gender</label>
+                    </div>
+                    <br />
+                    <div>
+                        <label class="fieldlabels">@Model.User_Contact</label>
+                    </div>
+                    <br />
+                </div>
+            </div>
+            <div class="float-right">
+                @Html.ActionLink("Edit Profile", "EditProfile", "Auth",  new { id = Model.ID }, new{ @class = "orange_color" })
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+@section Scripts {
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+}

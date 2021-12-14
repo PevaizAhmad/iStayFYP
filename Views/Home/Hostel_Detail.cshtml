@@ -1,0 +1,183 @@
+﻿@model iStay.DB.HostelInfo
+@{
+    ViewBag.Title = "Hostel_Detail";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<!-- =========== PAGE TITLE ========== -->
+<div class="page_title gradient_overlay" style="background: url(../../Content/images/page_title_bg.jpg);">
+    <div class="container">
+        <div class="inner">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <h1>@Model.hostel_name &nbsp;<span>(@Model.city_name)</span></h1>
+                    <ol class="breadcrumb">
+                        <li><a href="@Url.Action("Index","Home")">Home</a></li>
+                        <li>Hostels</li>
+                        <li>Detail</li>
+                    </ol>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="price">
+                        <div class="inner">
+                            @Model.rent <span>per month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- =========== MAIN ========== -->
+<main id="room_page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="slider">
+                    <div id="slider-larg" class="owl-carousel image-gallery">
+                        <!-- ITEM -->
+                        @foreach (var img in Model.Images)
+                        {
+                            <div class="item lightbox-image-icon">
+                                <a href="~/uploadfiles/@img.img" class="hover_effect h_lightbox h_blue">
+                                    <img class="img-responsive" style="width:600px; height:500px" src="~/uploadfiles/@img.img" alt="Image">
+                                </a>
+                            </div>
+
+                        }
+                    </div>
+                    <div id="thumbs" class="owl-carousel">
+                        <!-- ITEM -->
+                        @foreach (var img in Model.Images)
+                        {
+                            <div class="item"><img style="width:120px; height:80px" class="img-responsive" src="~/uploadfiles/@img.img" alt="Image"></div>
+
+
+                        }<!-- ITEM -->
+                    </div>
+                </div>
+                <div class="main_title mt50">
+                    <h2>ABOUT</h2>
+                </div>
+                <p>@Model.Description</p>
+                <div class="main_title t_style a_left s_title mt50">
+                    <div class="c_inner">
+                        <h2 class="c_title">ROOM SERVICES</h2>
+                    </div>
+                </div>
+                <div class="room_facilitys_list">
+                    <div class="all_facility_list">
+                        <div class="col-sm-4 nopadding">
+                            <ul class="list-unstyled">
+                                <li><i class="fa @(Model.kitchen.Equals("Yes") ? "fa-check" : "fa-times")"></i>Kitchen</li>
+                                <li><i class="fa fa-check"></i>2 Seater Room</li>
+                                <li><i class="fa fa-check"></i>3 Seater Room</li>
+                                <li><i class="fa fa-check"></i>4 Seater Room</li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-4 nopadding">
+                            <ul class="list-unstyled">
+                                <li class="@(Model.wifi.Equals("Yes") ? "yes" : "no")"><i class="fa @(Model.wifi.Equals("Yes") ? "fa-check" : "fa-times")"></i>Free Wi-Fi</li>
+                                <li class="@(Model.Mess.Equals("Yes") ? "yes" : "no")"><i class="fa @(Model.Mess.Equals("Yes") ? "fa-check" : "fa-times")"></i>Breakfast</li>
+                                <li class="@(Model.Mess.Equals("Yes") ? "yes" : "no")"><i class="fa @(Model.Mess.Equals("Yes") ? "fa-check" : "fa-times")"></i>Lunch</li>
+                                <li class="@(Model.Mess.Equals("Yes") ? "yes" : "no")"><i class="fa @(Model.Mess.Equals("Yes") ? "fa-check" : "fa-times")"></i>Dinner</li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-4 nopadding_left">
+                            <ul class="list-unstyled">
+                                <li class="no"><i class="fa fa-times"></i>Smoking</li>
+                                <li class="@(Model.AC.Equals("Yes") ? "yes" : "no")"><i class="fa @(Model.AC.Equals("Yes") ? "fa-check" : "fa-times")"></i>Full Ac</li>
+                                <li class="@(Model.laundry.Equals("Yes") ? "yes" : "no")"><i class="fa @(Model.laundry.Equals("Yes") ? "fa-check" : "fa-times")"></i>Laundry</li>
+                                <li><i class="fa fa-check"></i>Room Service</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="similar_rooms">
+                    <div class="main_title t_style5 l_blue s_title a_left">
+                        <div class="c_inner">
+                            <h2 class="c_title">SIMILAR ROOMS</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @foreach (var hostel in ViewBag.SimilarHostels)
+                        {
+                            <div class="col-md-4">
+                                <article>
+                                    <figure>
+                                        @foreach (var img in hostel.Images)
+                                        {
+                                            if (img.Image_type == "profile")
+                                            {
+                                                <a href="@Url.Action("Hostel_Detail","Home",new {id=hostel.ID })" class="hover_effect h_blue h_link">
+                                                    <img src="~/uploadfiles/@img.img" style="width:300px; height:170px" alt="Image" class="img-responsive">
+                                                </a>
+
+                                            }
+
+                                        }
+                                        <div class="price">@hostel.city_name<span></span></div>
+                                        <figcaption>
+                                            <h4><a href="@Url.Action("Hostel_Detail","Home",new {id=hostel.ID })">@hostel.hostel_name</a></h4>
+                                        </figcaption>
+                                    </figure>
+                                </article>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="sidebar">
+                    <aside class="widget">
+                        <div class="widget">
+                            @Html.ActionLink("BOOK A ROOM NOW","Hostel_Booking","Home",new {id=Model.ID },new { @class= "button btn_lg btn_blue btn_full" })
+                        </div>
+                    </aside>
+                    <aside class="widget">
+                        <div class="widget">
+                            <h4>NEAREST INSTITUTES</h4>
+                            <ul class="list-unstyled">
+                                @foreach (var institute in Model.Hostel_Institues)
+                                {
+                                    <li><i class="fa fa-check"></i>@institute.Institutes_Name</li>
+
+                                }
+                            </ul>
+                        </div>
+                    </aside>
+                    <aside class="widget">
+                        <h4>NEED HELP?</h4>
+                        <div class="help">
+                            If you have any question please don't hesitate to contact us
+                            <div class="phone"><i class="fa  fa-phone"></i><a href="tel:@ViewBag.Contact"> @ViewBag.Contact </a></div>
+                            <div class="email"><i class="fa  fa-envelope-o "></i><a href="mailto:@Model.hostel_email">@Model.hostel_email</a> or use <a href="@Url.Action("About","Home")"> contact form</a></div>
+                        </div>
+                    </aside>
+                    <aside class="widget row">
+                        <h4>Advertisement</h4>
+                        <div class="latest_posts col-sm-12">
+                            <article class="latest_post">
+                            <img src="~/Content/images/advertise.jpg" class="thumbnail img-responsive" />
+                                
+                            </article>
+                           
+                        </div>
+                        <div class="latest_posts col-sm-12">
+                            <article class="latest_post">
+                            <img src="~/Content/images/ad2.jpg" class="thumbnail img-responsive" />
+                                
+                            </article>
+                           
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+

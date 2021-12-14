@@ -6,16 +6,15 @@
 }
 
 @{
-    Session["TenantSessionId"] = null;
-    if (Session != null && Session["TenantSessionId"] != null)
+    if (Session != null && Session["userID"] != null)
     {
-        if (TempData["msg"] != null)
+        if (TempData["hostel_register"] != null)
         {
             <script type="text/javascript">
                 window.onload = function () {
-                    var message = '@TempData["msg"]';
+                    var message = '@TempData["hostel_register"]';
                     var sts = '@TempData["status"]';
-                    swal({ title: "Updated", text: message, icon: "success" });
+                    swal({ title: "Registered", text: message, icon: "success" });
                 }
             </script>
         }
@@ -30,29 +29,22 @@
         <hr />
         <div class="row">
             <div class="col-sm-12 col-md-3 col-lg-3">
-                <h4>Services Available</h4>
-                <div style="float:left">
-                    <ul>
-                        <li>AC:</li>
-                        <li>REfregrator: @*@(Model.AC.Equals("Yes") ? "Yes" : "No")*@</li>
-                        <li>Kitchen:</li>
-                        <li>Laundry:</li>
-                        <li>Mess:</li>
-                        <li>Internet:</li>
-                    </ul>
-                    <hr />
+                <div class="row">
+                    @{
+                        foreach (var img in Model.Images)
+                        {
+                            if (img.Image_type == "profile")
+                            {
+                                <div class="col-sm-12">
+                                    <img src="~/uploadfiles/@img.img" id="img" class="img-thumbnail" style="width:200px; height:200px;" onclick="newTabImage()" />
+                                </div>
 
+                            }
+                        }
+                    }
                 </div>
-                <div style="float:right">
-                    <ul>
-                        <li><input style="color:green" type="checkbox" readonly="readonly" disabled @(Model.AC.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
-                        <li><input type="checkbox" readonly="readonly" disabled @(Model.refregrator.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
-                        <li><input type="checkbox" readonly="readonly" disabled @(Model.kitchen.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
-                        <li><input type="checkbox" readonly="readonly" disabled @(Model.laundry.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
-                        <li><input type="checkbox" readonly="readonly" disabled @(Model.Mess.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
-                        <li><input type="checkbox" readonly="readonly" disabled @(Model.wifi.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
-                    </ul>
-                </div>
+                <br />
+
 
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6">
@@ -78,6 +70,31 @@
                     @Model.rent -/PKR <br />
                     @Model.rooms
                 </div>
+                <br /><br />
+                <hr />
+                <h4>Services Available</h4>
+                <div style="float:left">
+                    <ul>
+                        <li>AC:</li>
+                        <li>REfregrator: @*@(Model.AC.Equals("Yes") ? "Yes" : "No")*@</li>
+                        <li>Kitchen:</li>
+                        <li>Laundry:</li>
+                        <li>Mess:</li>
+                        <li>Internet:</li>
+                    </ul>
+                    <hr />
+
+                </div>
+                <div style="float:right">
+                    <ul>
+                        <li><input type="checkbox" readonly="readonly" disabled @(Model.AC.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
+                        <li><input type="checkbox" readonly="readonly" disabled @(Model.refregrator.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
+                        <li><input type="checkbox" readonly="readonly" disabled @(Model.kitchen.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
+                        <li><input type="checkbox" readonly="readonly" disabled @(Model.laundry.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
+                        <li><input type="checkbox" readonly="readonly" disabled @(Model.Mess.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
+                        <li><input type="checkbox" readonly="readonly" disabled @(Model.wifi.Equals("Yes") ? "checked=\"checked\"" : "") /></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <hr />
@@ -87,33 +104,41 @@
                 foreach (var img in Model.Images)
                 {
 
-                    <div class="column">
-                        <img src="~/uploadfiles/@img.img" id="img" class="img-thumbnail" style="width:200px; height:200px;" onclick="newTabImage()" />
-                    </div>
+                    if (img.Image_type != "profile")
+                    {
+                        <div class="column">
+                            <img src="~/uploadfiles/@img.img" id="img" class="img-thumbnail" style="width:200px; height:200px;" onclick="newTabImage()" />
+                        </div>
+
+                    }
                 }
             }
         </div>
         <hr />
 
         <p>
-            @Html.ActionLink("Edit", "Edit", "Hostel", new { id = Model.ID }, null) |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Edit", "Edit", "Hostel", new { @class = "orange_color", id = Model.ID }, null) |
         </p>
     }
     else
     {
-        <span>Session Has been Expires Please <span style="color:orangered">@Html.ActionLink("Click Here", "Login", "Auth")</span> to login </span>
+        <span>Session Has been Expires Please <span style="color:orangered">@Html.ActionLink("Click Here", "Login", "Auth", null, new { @class = "orange_color" })</span> to login </span>
     }
 }
 
+@section Scripts {
 
-<script type="text/javascript">
-    function newTabImage() {
-        var image = new Image();
-        image.src = $('#img').attr('src');
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function newTabImage() {
+            var image = new Image();
+            image.src = $('#img').attr('src');
 
-        var w = window.open("", '_blank');
-        w.document.write(image.outerHTML);
-        w.document.close();
-    }
-</script>
+            var w = window.open("", '_blank');
+            w.document.write(image.outerHTML);
+            w.document.close();
+        }
+    </script>
+}

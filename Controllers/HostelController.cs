@@ -15,6 +15,8 @@ namespace iStayHostelFinder.Controllers
     {
         private istay_dbEntities db = new istay_dbEntities();
         static string status = "pending";
+        static string SIGNATURE_IMAGE = "profile";
+        static string EXTRA_SLIDER_IMAGES = "slider";
 
         // GET: Hostel
         public ActionResult Index()
@@ -31,7 +33,8 @@ namespace iStayHostelFinder.Controllers
         {
             try
             {
-                int user_id = Convert.ToInt32(Session["userID"]);
+                int userid = Convert.ToInt32(Session["userID"]);
+                model.status = status;
                 if (ModelState.IsValid && institute != null)
                 {
                     iStay.DB.HostelInfo info = new iStay.DB.HostelInfo()
@@ -49,8 +52,9 @@ namespace iStayHostelFinder.Controllers
                         wifi = model.wifi,
                         rooms = Convert.ToInt32(model.rooms),
                         rent = model.rent,
-                        status = status,
-                        User_ID = user_id
+                        status = model.status,
+                        User_ID = userid,
+                        Description=model.Desc
                     };
                     db.HostelInfoes.Add(info);
                     db.SaveChanges();
@@ -59,10 +63,10 @@ namespace iStayHostelFinder.Controllers
                     //add images related to the hostel
 
                     foreach (HttpPostedFileBase file in model.files)
-                        {
+                    {
                         //Checking file is available to save.
-                            if (file != null && file.ContentLength > 0)
-                            {
+                        if (file != null && file.ContentLength > 0)
+                        {
                             string newFileName = "";
                             string path = HttpContext.Server.MapPath(@"~/uploadfiles");
 
@@ -79,7 +83,8 @@ namespace iStayHostelFinder.Controllers
                             Image img = new Image()
                             {
                                 hostel_id = hostelID,
-                                img = newFileName
+                                img = newFileName,
+                                Image_type = EXTRA_SLIDER_IMAGES
                             };
                             db.Images.Add(img);
                             db.SaveChanges();
@@ -87,6 +92,32 @@ namespace iStayHostelFinder.Controllers
 
                     }
 
+                    //Add signature image
+                    //Checking file is available to save.
+                    if (model.profile != null && model.profile.ContentLength > 0)
+                    {
+                        string newFileName = "";
+                        string path = HttpContext.Server.MapPath(@"~/uploadfiles");
+
+                        bool exists = System.IO.Directory.Exists(path);
+
+                        if (!exists)
+                            System.IO.Directory.CreateDirectory(path);
+
+                        string extension = Path.GetExtension(model.profile.FileName);
+                        newFileName = Guid.NewGuid() + extension;
+                        string filePath = Path.Combine(path, newFileName);
+                        model.profile.SaveAs(filePath);
+
+                        Image img = new Image()
+                        {
+                            hostel_id = hostelID,
+                            img = newFileName,
+                            Image_type = SIGNATURE_IMAGE
+                        };
+                        db.Images.Add(img);
+                        db.SaveChanges();
+                    }
                     //add list of institutes related to hostel
                     foreach (var i in institute)
                     {
@@ -98,11 +129,12 @@ namespace iStayHostelFinder.Controllers
                         db.Hostel_Institues.Add(_Institues);
                         db.SaveChanges();
                     }
-                    ViewBag.msg = "Hostel has been registered successfully";
-                    ViewBag.status = "success";
-
+                    TempData["hostel_register"] = "Hostel has been registered successfully";
+                    TempData["sts"] = "success";
+                    return RedirectToAction("MyHostel","HostelAdmin");
                 }
-
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                ViewBag.erroe = errors;
                 return View();
             }
             catch(Exception ex)
@@ -112,14 +144,6 @@ namespace iStayHostelFinder.Controllers
                 return View();
             }
         }
-
-        public ActionResult MyHostel(int? id)
-        {
-
-            var data = db.HostelInfoes.Where(x => x.ID == id).Include(x => x.Hostel_Institues).Include(x => x.Images).FirstOrDefault();
-            return View(data);
-        }
-
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -259,5 +283,57 @@ namespace iStayHostelFinder.Controllers
             };
             return info;
         }
+
+        public ActionResult AddService()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddService(iStay.Models.HostelService model,int id)
+        {
+            if (ModelState.IsValid)
+            {
+                iStay.DB.HostelService service = new iStay.DB.HostelService()
+                {
+                    Service = model.Service,
+                    Price = model.Price,
+                    HostelID=id
+                };
+                db.HostelServices.Add(service);
+                db.SaveChanges();
+            }
+            return View();
+        }
+        public ActionResult Services(int id) 
+        {
+            var data = db.HostelServices.Where(x => x.HostelID == id).ToList();
+            return View(data);
+        }
+        public ActionResult AddRoomType()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddRoomType(iStay.Models.RoomType model, int id)
+        {
+            if (ModelState.IsValid)
+            {
+                iStay.DB.HostelRoomType type = new HostelRoomType()
+                {
+                    Price = model.Price,
+                    RoomType = model.Type,
+                    HostelID=id
+                };
+                db.HostelRoomTypes.Add(type);
+                db.SaveChanges();
+            }
+            return View();
+        }
+        public ActionResult RoomTypes()
+        {
+            return View();
+        }
+
     }
 }

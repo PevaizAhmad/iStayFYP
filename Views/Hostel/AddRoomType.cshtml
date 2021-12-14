@@ -1,0 +1,72 @@
+﻿@model iStay.Models.RoomType
+@{
+    ViewBag.Title = "Add Room Type";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+
+<style>
+    .red {
+        color: red;
+    }
+
+    .text-area {
+        padding: 8px 15px 8px 15px;
+        border: 1px solid #ccc;
+        border-radius: 0px;
+        margin-bottom: 5px;
+        margin-top: 2px;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: montserrat;
+        color: #2C3E50;
+        background-color: #ECEFF1;
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+</style>
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-12 col-lg-10 text-center p-0 mt-3 mb-2">
+        <div class="card" style="padding:25px">
+            <h2 id="heading">What Type of Rooms You are Providing</h2>
+            @*<p>Fill all menatory fields<span> *</span> </p>*@
+
+            @using (Html.BeginForm("AddRoomType", "Hostel", FormMethod.Post, new { id = "msform" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <!-- fieldsets Start-->
+                <fieldset>
+                    <div class="form-card">
+                        <label class="fieldlabels">Room Type: <span class="text-danger"> *</span></label>
+                        @Html.DropDownListFor(model => model.Type, new List<SelectListItem>
+                                                {
+                                                    new SelectListItem{Text="1 Seater", Value="1 Seater"},
+                                                    new SelectListItem{Text="2 Seater", Value="2 Seater"},
+                                                    new SelectListItem{Text="3 Seater", Value="3 Seater"},
+                                                    new SelectListItem{Text="4 Seater", Value="4 Seater"},
+                                                    new SelectListItem{Text="5 Seater", Value="5 Seater"},
+                                                }, "-----Select-----",
+                                                new
+                                                {
+                                                    @class = "text-area"
+                                                })
+                        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                        <br />
+                        <label class="fieldlabels">Bed Price<span class="text-danger"> *</span></label>
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "input" } })
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+
+                        <input type="submit" class=" action-button" value="Add Room" />
+
+                    </div>
+                </fieldset>
+                <!-- fieldsets END-->
+            }
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

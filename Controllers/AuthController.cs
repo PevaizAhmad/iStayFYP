@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using iStay.DB;
+using System.Data.Entity;
 
 namespace iStayHostelFinder.Controllers
 {
@@ -47,36 +48,115 @@ namespace iStayHostelFinder.Controllers
                 AuthViewModel vm = new AuthViewModel();
                 if (ModelState.IsValid)
                 {
-                    int type = vm.AddUserData(model);
+                    int id = vm.AddUserData(model);
+                    Session["userID"] = id;
                     ModelState.Clear();
-                    TempData["registered"] = "You have registered successfull please login";
-                    return RedirectToAction("Login");
+                    istay_dbEntities db = new istay_dbEntities();
+                    var data = db.Users.Where(x => x.ID == id).FirstOrDefault();
+                    if(data.User_type==1)
+                    {
+                        //for simple user do code here
+                        TempData["registered"] = "You have registered successfull";
+                        return RedirectToAction("Login");
+                    }
+                    else if(data.User_type==2)
+                    {
+                        //for hostel owner do code here
+                        TempData["registered"] = "You have registered successfull Please register your hostel";
+                        return RedirectToAction("Register","Hostel");
+                    }
                 }
-
                 return View();
                 
             }
-            catch
+            catch(Exception ex)
             {
+                ViewBag.exception = ex;
                 return View();
             }
         }
 
-        // GET: Auth/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Login()
         {
             return View();
+        }
+        [HttpPost]
+        public ActionResult Login(Users user)
+        {
+            using (var db = new istay_dbEntities())
+            {
+                var obj = db.Users.Where(a => a.User_Name.Equals(user.User_Name) && a.User_Pass.Equals(user.User_Pass)).FirstOrDefault();
+                if (obj != null)
+                {
+
+                    FormsAuthentication.SetAuthCookie(user.User_Name, false);
+                    Session["userID"] = obj.ID.ToString();
+                    Session["userName"] = obj.User_Name.ToString();
+
+                    return RedirectToAction("MyHostel", "HostelAdmin");
+                }
+                else
+                    ModelState.AddModelError("", "Invalid Username Or Password");
+            }
+            return View();
+        }
+
+        public ActionResult MyProfile()
+        {
+            int id = Convert.ToInt32(Session["userID"]);
+            istay_dbEntities db = new istay_dbEntities();
+            var data = db.Users.Where(x => x.ID == id).FirstOrDefault();
+            Users user = new Users()
+            {
+                ID=data.ID,
+                User_Name=data.User_Name,
+                User_Email=data.User_Email,
+                User_Contact=data.User_Contact,
+                User_Pass=data.User_Pass,
+                User_Gender=data.User_Gender
+            };
+            return View(user);
+        }
+
+        // GET: Auth/Edit/5
+        public ActionResult EditProfile(int id)
+        {
+            using(var db =new istay_dbEntities())
+            {
+                var data = db.Users.Where(x => x.ID == id).FirstOrDefault();
+                Users user = new Users()
+                {
+                    ID = data.ID,
+                    User_Name = data.User_Name,
+                    User_Email = data.User_Email,
+                    User_Contact = data.User_Contact,
+                    User_Pass = data.User_Pass,
+                    User_Gender = data.User_Gender
+                };
+                return View("MyProfile");
+            }
         }
 
         // POST: Auth/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult EditProfile(int id, FormCollection collection, Users user)
         {
             try
             {
-                // TODO: Add update logic here
+                using (var db = new istay_dbEntities())
+                {
+                    var data = db.Users.Where(x => x.ID == id).FirstOrDefault();
+                    data.User_Name = data.User_Name;
+                    data.User_Email = data.User_Email;
+                    data.User_Contact = data.User_Contact;
+                    data.User_Gender = data.User_Gender;
 
-                return RedirectToAction("Index");
+                    db.Entry(data).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return View(user);
+                }
+
             }
             catch
             {
@@ -106,28 +186,5 @@ namespace iStayHostelFinder.Controllers
             }
         }
 
-        public ActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Login(Users user)
-        {
-            using (var db = new istay_dbEntities())
-            {
-                var obj = db.Users.Where(a => a.User_Name.Equals(user.User_Name) && a.User_Pass.Equals(user.User_Pass)).FirstOrDefault();
-                if (obj != null)
-                {
-                    
-                    FormsAuthentication.SetAuthCookie(user.User_Name, false);
-                    Session["userID"] = obj.ID.ToString();
-                    
-                    return RedirectToAction("MyHostel", "HostelAdmin");
-                }
-                else
-                ModelState.AddModelError("", "Invalid Username Or Password");
-            }
-            return View();
-        }
     }
 }

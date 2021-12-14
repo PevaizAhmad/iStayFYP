@@ -1,0 +1,66 @@
+﻿@model iStay.Models.Users
+
+@{ ViewBag.Title = "EditProfile";
+                Layout = "~/Views/Shared/_Layout1.cshtml"; }
+
+<div class="page_title"><h2>Edit Profile</h2></div>
+
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 price_table padding_infor_info bg-white container-fluid">
+        @using (Html.BeginForm())
+        {
+    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-horizontal">
+                                        @Html.HiddenFor(model => model.ID)
+
+                                        <div class="form-group">
+                                            <label class="fieldlabels control-label col-md-4">Name: <span class="text-danger"> *</span></label>
+                                            <div class="col-md-12">
+                                                @Html.EditorFor(model => model.User_Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.User_Name, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="fieldlabels control-label col-md-4">Email: <span class="text-danger"> *</span></label>
+                                            <div class="col-md-12">
+                                                @Html.EditorFor(model => model.User_Email, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.User_Email, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="fieldlabels control-label col-md-4">Gender: <span class="text-danger"> *</span></label>
+                                            <div class="col-md-12">
+                                                @Html.DropDownListFor(model => model.User_Gender, new List<SelectListItem>
+                                                                                                                    { new SelectListItem{Text="Male", Value="Male"},
+                                                     new SelectListItem{Text="Female", Value="Female"}}, "-----Select-----", new { @class = "text-area" })
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="fieldlabels control-label col-md-4">Contact: <span class="text-danger"> *</span></label>
+                                            <div class="col-md-12">
+                                                @Html.EditorFor(model => model.User_Contact, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.User_Contact, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <input type="submit" value="Save" class="btn btn-primary" />
+                                            </div>
+                                        </div>
+                                    </div>}
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+<div>
+    @Html.ActionLink("Dashboard", "Index","MyHostel")
+</div>
