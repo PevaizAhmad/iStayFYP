@@ -77,14 +77,15 @@ namespace iStayFYP.Controllers
             var usrData = db.Users.Where(x => x.ID == data.User_ID).FirstOrDefault();
             ViewBag.Contact = usrData.User_Contact;
             // similar hostels
-            var data1 = db.HostelInfoes.Where(x => x.city_name == data.city_name && x.type==data.type && x.ID != id).Include(x => x.Hostel_Institues).Include(x => x.Images).ToList();
+            var data1 = db.HostelInfoes.Where(x => x.cityID == data.cityID && x.type==data.type && x.ID != id).Include(x => x.Hostel_Institues).Include(x => x.Images).ToList();
             ViewBag.SimilarHostels = data1;
             
             return View(data);
         }
 
-        public ActionResult Hostel_Booking(int? hostelID)
+        public ActionResult Hostel_Booking(int? id)
         {
+            ViewBag.RoomTypes = db.HostelRoomTypes.Where(x => x.HostelID == id).ToList();
             return View();
         }
     }

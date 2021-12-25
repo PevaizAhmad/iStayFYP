@@ -26,6 +26,8 @@ namespace iStayHostelFinder.Controllers
       
         public ActionResult Register()
         {
+            List<City> CityList = db.Cities.ToList();
+            ViewBag.CityList = new SelectList(CityList, "ID", "City_Name");
             return View();
         }
         [HttpPost]
@@ -42,16 +44,8 @@ namespace iStayHostelFinder.Controllers
                         hostel_name = model.hostel_name,
                         hostel_email = model.hostel_email,
                         hostel_address = model.hostel_address,
-                        city_name = model.city_name,
                         type = model.type,
-                        refregrator = model.refregrator,
-                        AC = model.AC,
-                        kitchen = model.kitchen,
-                        laundry = model.laundry,
-                        Mess = model.Mess,
-                        wifi = model.wifi,
-                        rooms = Convert.ToInt32(model.rooms),
-                        rent = model.rent,
+                        cityID=model.CityID,
                         status = model.status,
                         User_ID = userid,
                         Description=model.Desc
@@ -124,7 +118,7 @@ namespace iStayHostelFinder.Controllers
                         Hostel_Institues _Institues = new Hostel_Institues()
                         {
                             Hostel_ID = hostelID,
-                            Institutes_Name = i
+                            Institutes_ID = Convert.ToInt32(i)
                         };
                         db.Hostel_Institues.Add(_Institues);
                         db.SaveChanges();
@@ -182,16 +176,8 @@ namespace iStayHostelFinder.Controllers
                     data.hostel_name = model.HostelInfo.hostel_name;
                     data.hostel_email = model.HostelInfo.hostel_email;
                     data.hostel_address = model.HostelInfo.hostel_address;
-                    data.city_name = model.HostelInfo.city_name;
                     data.type = model.HostelInfo.type;
-                    data.refregrator = model.HostelInfo.refregrator;
-                    data.AC = model.HostelInfo.AC;
-                    data.kitchen = model.HostelInfo.kitchen;
-                    data.laundry = model.HostelInfo.laundry;
-                    data.Mess = model.HostelInfo.Mess;
-                    data.wifi = model.HostelInfo.wifi;
-                    data.rooms = Convert.ToInt32(model.HostelInfo.rooms);
-                    data.rent = model.HostelInfo.rent;
+                    data.cityID = model.HostelInfo.CityID;
                     data.status = status;
                     data.User_ID = user_id;
 
@@ -239,7 +225,7 @@ namespace iStayHostelFinder.Controllers
                             Hostel_Institues _Institues = new Hostel_Institues()
                             {
                                 Hostel_ID = id,
-                                Institutes_Name = i
+                                Institutes_ID = Convert.ToInt32(i)
                             };
                             db.Hostel_Institues.Add(_Institues);
                             db.SaveChanges();
@@ -269,16 +255,8 @@ namespace iStayHostelFinder.Controllers
                 hostel_name = hostelInfo.hostel_name,
                 hostel_email = hostelInfo.hostel_email,
                 hostel_address = hostelInfo.hostel_address,
-                city_name = hostelInfo.city_name,
                 status = hostelInfo.status,
-                AC = hostelInfo.AC,
-                wifi = hostelInfo.wifi,
-                kitchen = hostelInfo.kitchen,
-                laundry = hostelInfo.laundry,
-                Mess = hostelInfo.Mess,
-                refregrator = hostelInfo.refregrator,
-                rent = hostelInfo.rent,
-                rooms = Convert.ToString(hostelInfo.rooms),
+                CityID= (int)hostelInfo.cityID,
                 type = hostelInfo.type,
             };
             return info;
@@ -334,6 +312,11 @@ namespace iStayHostelFinder.Controllers
         {
             return View();
         }
-
+        public JsonResult GetInstitutes(int CityID)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<Institute> institutesList = db.Institutes.Where(x => x.City_ID == CityID).ToList();
+            return Json(institutesList, JsonRequestBehavior.AllowGet);
+        }
     }
 }
